@@ -106,3 +106,9 @@ class PermissionedClusterFormMetaclass(PermissionedFormMetaclass, ClusterFormMet
 class PermissionedClusterForm(PermissionedForm, ClusterForm, metaclass=PermissionedClusterFormMetaclass):
     pass
 ```
+
+
+Acknowledgements
+----------------
+
+`django-permissionedforms` was developed as part of [Wagtail](https://wagtail.org/)'s next-generation page editor, sponsored by Google.
