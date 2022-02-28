@@ -55,3 +55,54 @@ class CountryForm(PermissionedModelForm):
 
 form = CountryForm(instance=country, for_user=request.user)
 ```
+
+
+Integrating with other base form classes
+----------------------------------------
+
+You may wish to integrate the permission handling from `django-permissionedforms` into some other base form class, such as `ClusterForm` from the [django-modelcluster](https://github.com/wagtail/django-modelcluster) package. If that base form class is a straightforward subclass of `django.forms.Form` or `django.forms.ModelForm`, then using multiple inheritance to additionally inherit from `PermissionedForm` or `PermissionedModelForm` should work:
+
+```python
+from fancyforms import FancyForm  # made up for example purposes
+from permissionedforms import PermissionedForm
+
+class FancyPermissionedForm(PermissionedForm, FancyForm):
+    pass
+```
+
+However, this will fail if the base form class implements its own metaclass. In this case, you will need to define a new metaclass inheriting from both the existing one and `permissionedforms.PermissionedFormMetaclass`:
+
+```python
+from fancyforms import FancyForm
+from permissionedforms import PermissionedForm, PermissionedFormMetaclass
+
+
+FancyFormMetaclass = type(FancyForm)
+
+
+class FancyPermissionedFormMetaclass(PermissionedFormMetaclass, FancyFormMetaclass):
+    pass
+
+
+class FancyPermissionedForm(PermissionedForm, FancyForm, metaclass=FancyPermissionedFormMetaclass):
+    pass
+```
+
+This could still fail if the base form class incorporates a custom Options class to allow it to accept its own `class Meta` options. If so, it will be necessary to define a new Options class, again using multiple inheritance to subclass both the existing Options class and `permissionedforms.PermissionedFormOptionsMixin`, and then set this as `options_class` on the metaclass. The following recipe will work for `ClusterForm`:
+
+```python
+from modelcluster.forms import ClusterForm, ClusterFormMetaclass, ClusterFormOptions
+from permissionedforms import PermissionedForm, PermissionedFormMetaclass, PermissionedFormOptionsMixin
+
+
+class PermissionedClusterFormOptions(PermissionedFormOptionsMixin, ClusterFormOptions):
+    pass
+
+
+class PermissionedClusterFormMetaclass(PermissionedFormMetaclass, ClusterFormMetaclass):
+    options_class = PermissionedClusterFormOptions
+
+
+class PermissionedClusterForm(PermissionedForm, ClusterForm, metaclass=PermissionedClusterFormMetaclass):
+    pass
+```
