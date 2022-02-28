@@ -17,6 +17,7 @@ setup(
     long_description=open('README.md').read(),
     python_requires=">=3.7",
     install_requires=[
+        'Django',
     ],
     extras_require={
         'testing': [
