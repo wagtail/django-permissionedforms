@@ -15,6 +15,7 @@ setup(
     packages=find_packages(exclude=('tests*',)),
     license='BSD',
     long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     python_requires=">=3.7",
     install_requires=[
         'Django',
