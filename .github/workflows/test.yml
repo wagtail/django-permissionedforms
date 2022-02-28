@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        include:
+          - python: "3.7"
+            django: "Django>=3.2,<3.3"
+            experimental: false
+          - python: "3.8"
+            django: "Django>=3.2,<3.3"
+            experimental: false
+          - python: "3.9"
+            django: "Django>=4.0,<4.1"
+            experimental: false
+          - python: "3.10"
+            django: "Django>=4.0,<4.1"
+            experimental: false
+          - python: "3.10"
+            django: "git+https://github.com/django/django.git@main#egg=Django"
+            experimental: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "${{ matrix.django }}"
+          pip install -e .[testing]
+      - name: Test
+        run: ./runtests.py
