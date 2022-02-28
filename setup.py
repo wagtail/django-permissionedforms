@@ -19,7 +19,9 @@ setup(
     install_requires=[
     ],
     extras_require={
-        'testing': [],
+        'testing': [
+            'django-modelcluster',
+        ],
     },
     classifiers=[
         'Development Status :: 4 - Beta',

@@ -1,8 +1,8 @@
 from django.contrib.auth.models import Permission, User
 from django.test import TestCase
 
-from .forms import CountryForm, PersonForm
-from .models import Country
+from .forms import CountryForm, PageForm, PersonForm
+from .models import Country, Page
 
 
 class PermissionedFormTest(TestCase):
@@ -156,3 +156,70 @@ class PermissionedModelFormTest(TestCase):
         form.save()
         self.assertEqual(self.country.name, 'Sweden')
         self.assertEqual(self.country.description, 'A lovely country with a blue and yellow flag')
+
+
+class PermissionedClusterFormTest(TestCase):
+    def setUp(self):
+        self.page = Page.objects.create(title="Sheep", body="And did those sheep in ancient time")
+        self.page_data = {
+            'title': 'Teeth',
+            'body': 'And did those teeth in ancient time',
+            'tags-TOTAL_FORMS': '1',
+            'tags-INITIAL_FORMS': '0',
+            'tags-MIN_NUM_FORMS': '0',
+            'tags-MAX_NUM_FORMS': '1000',
+            'tags-0-tag': 'Dentistry',
+            'tags-0-id': '',
+        }
+
+    def test_unbound_form_without_user(self):
+        form = PageForm(instance=self.page)
+        self.assertIn('title', form.fields)
+        self.assertIn('body', form.fields)
+        self.assertIn('tags', form.formsets)
+
+    def test_bound_form_without_user(self):
+        form = PageForm(self.page_data, instance=self.page)
+        self.assertIn('title', form.fields)
+        self.assertIn('body', form.fields)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(self.page.title, 'Teeth')
+        self.assertEqual(self.page.body, 'And did those teeth in ancient time')
+        self.assertEqual(self.page.tags.first().tag, 'Dentistry')
+
+    def test_unbound_form_for_superuser(self):
+        superuser = User.objects.create_superuser('admin', 'admin@example.com', 'password')
+        form = PageForm(instance=self.page, for_user=superuser)
+        self.assertIn('title', form.fields)
+        self.assertIn('body', form.fields)
+        self.assertIn('tags', form.formsets)
+
+    def test_bound_form_for_superuser(self):
+        superuser = User.objects.create_superuser('admin', 'admin@example.com', 'password')
+        form = PageForm(self.page_data, instance=self.page, for_user=superuser)
+        self.assertIn('title', form.fields)
+        self.assertIn('body', form.fields)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(self.page.title, 'Teeth')
+        self.assertEqual(self.page.body, 'And did those teeth in ancient time')
+        self.assertEqual(self.page.tags.first().tag, 'Dentistry')
+
+    def test_unbound_form_for_normal_user_without_permission(self):
+        bob = User.objects.create_user('bob', 'bob@example.com', 'password')
+        form = PageForm(instance=self.page, for_user=bob)
+        self.assertNotIn('title', form.fields)
+        self.assertIn('body', form.fields)
+        self.assertIn('tags', form.formsets)
+
+    def test_bound_form_for_normal_user_without_permission(self):
+        bob = User.objects.create_user('bob', 'bob@example.com', 'password')
+        form = PageForm(self.page_data, instance=self.page, for_user=bob)
+        self.assertNotIn('title', form.fields)
+        self.assertIn('body', form.fields)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(self.page.title, 'Sheep')
+        self.assertEqual(self.page.body, 'And did those teeth in ancient time')
+        self.assertEqual(self.page.tags.first().tag, 'Dentistry')

@@ -1,7 +1,8 @@
 from django import forms
-from permissionedforms import PermissionedForm, PermissionedModelForm
+from modelcluster.forms import ClusterForm, ClusterFormMetaclass, ClusterFormOptions
+from permissionedforms import PermissionedForm, PermissionedFormMetaclass, PermissionedFormOptionsMixin, PermissionedModelForm
 
-from .models import Country
+from .models import Country, Page
 
 
 class PersonForm(PermissionedForm):
@@ -20,4 +21,26 @@ class CountryForm(PermissionedModelForm):
         fields = ['name', 'description']
         field_permissions = {
             'description': 'tests.change_country_description'
+        }
+
+
+class PermissionedClusterFormOptions(PermissionedFormOptionsMixin, ClusterFormOptions):
+    pass
+
+
+class PermissionedClusterFormMetaclass(PermissionedFormMetaclass, ClusterFormMetaclass):
+    options_class = PermissionedClusterFormOptions
+
+
+class PermissionedClusterForm(PermissionedForm, ClusterForm, metaclass=PermissionedClusterFormMetaclass):
+    pass
+
+
+class PageForm(PermissionedClusterForm):
+    class Meta:
+        model = Page
+        fields = ['title', 'body']
+        formsets = ['tags']
+        field_permissions = {
+            'title': 'tests.change_page_title'
         }
