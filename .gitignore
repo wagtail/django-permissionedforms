@@ -1,0 +1,7 @@
+*.pyc
+*.swp
+dist/
+build/
+MANIFEST
+/django_permissionedforms.egg-info
+
