@@ -26,6 +26,7 @@ setup(
             "black>=22.1,<22.2",
             "isort>=5.10.1,<5.11",
             "flake8>=4.0.1,<4.1",
+            "coverage>=6.3.2,<6.4",
         ],
     },
     classifiers=[

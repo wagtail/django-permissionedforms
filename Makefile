@@ -1,4 +1,4 @@
-.PHONY: clean format lint test
+.PHONY: clean format lint test coverage
 
 default: clean
 
@@ -19,3 +19,6 @@ lint:
 
 test:
 	./runtests.py
+
+coverage:
+	coverage run ./runtests.py && coverage html
