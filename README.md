@@ -126,6 +126,48 @@ class PermissionedClusterForm(PermissionedForm, ClusterForm, metaclass=Permissio
 ```
 
 
+Support
+-------
+
+For support, please use [GitHub Discussions](https://github.com/wagtail/django-permissionedforms/discussions) or the [Wagtail Slack workspace](https://github.com/wagtail/wagtail/wiki/Slack).
+
+
+Contributing
+------------
+
+Install this package in development mode:
+
+```shell
+git clone https://github.com/wagtail/django-permissionedforms.git
+cd django-permissionedforms
+pip install -e .[testing]
+```
+
+To run the test suite locally:
+
+```shell
+make test
+```
+
+To generate a test coverage report:
+
+```shell
+make coverage
+```
+
+To check the code style of all files:
+
+```shell
+make lint
+```
+
+To fix any errors that can be automatically fixed:
+
+```shell
+make format
+```
+
+
 Acknowledgements
 ----------------
 
