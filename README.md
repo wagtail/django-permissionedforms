@@ -1,7 +1,25 @@
+<p align="center">
+<a href="https://pypi.org/project/django-permissionedforms/">
+    <img src="https://badge.fury.io/py/django-permissionedforms.svg" alt="Package version">
+</a>
+<a href="https://opensource.org/licenses/BSD-3-Clause">
+    <img src="https://img.shields.io/badge/license-BSD-blue.svg"/>
+</a>
+</p>
+
 django-permissionedforms
 ========================
 
 `django-permissionedforms` is an extension to Django's forms framework, allowing you to define forms where certain fields are shown or omitted according to the user's permissions.
+
+* [Changelog](https://github.com/wagtail/django-permissionedforms/blob/main/CHANGELOG.md)
+
+
+Requirements
+------------
+
+* Python 3.7 or higher
+* Django 3.2 or higher
 
 
 Installation
