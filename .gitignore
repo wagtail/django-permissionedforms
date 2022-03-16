@@ -4,4 +4,5 @@ dist/
 build/
 MANIFEST
 /django_permissionedforms.egg-info
-
+/htmlcov
+/.coverage
