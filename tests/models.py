@@ -18,11 +18,9 @@ class Page(ClusterableModel):
     body = models.TextField(blank=True)
 
     class Meta:
-        permissions = [
-            ("change_page_title", "Can change page titles")
-        ]
+        permissions = [("change_page_title", "Can change page titles")]
 
 
 class PageTag(models.Model):
-    page = ParentalKey(Page, related_name='tags')
+    page = ParentalKey(Page, related_name="tags")
     tag = models.CharField(max_length=255)
