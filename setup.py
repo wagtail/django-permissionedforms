@@ -12,6 +12,10 @@ setup(
     author="Matthew Westcott",
     author_email="matthew.westcott@torchbox.com",
     url="https://github.com/wagtail/django-permissionedforms",
+    project_urls={
+        "Documentation": "https://github.com/wagtail/django-permissionedforms/blob/main/README.md",
+        "Changelog": "https://github.com/wagtail/django-permissionedforms/blob/main/CHANGELOG.md",
+    },
     packages=find_packages(exclude=("tests*",)),
     license="BSD",
     long_description=open("README.md").read(),
