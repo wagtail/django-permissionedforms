@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import os
-import shutil
 import sys
 
 from django.core.management import execute_from_command_line

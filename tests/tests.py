@@ -129,7 +129,8 @@ class PermissionedModelFormTest(TestCase):
             form_html,
         )
         self.assertInHTML(
-            '<textarea name="description" cols="40" rows="10" id="id_description">A lovely country with a blue and yellow flag</textarea>',
+            '<textarea name="description" cols="40" rows="10" id="id_description">'
+            "A lovely country with a blue and yellow flag</textarea>",
             form_html,
         )
 
@@ -162,7 +163,8 @@ class PermissionedModelFormTest(TestCase):
             form_html,
         )
         self.assertInHTML(
-            '<textarea name="description" cols="40" rows="10" id="id_description">A lovely country with a blue and yellow flag</textarea>',
+            '<textarea name="description" cols="40" rows="10" id="id_description">'
+            "A lovely country with a blue and yellow flag</textarea>",
             form_html,
         )
 
@@ -198,7 +200,8 @@ class PermissionedModelFormTest(TestCase):
             form_html,
         )
         self.assertInHTML(
-            '<textarea name="description" cols="40" rows="10" id="id_description">A lovely country with a blue and yellow flag</textarea>',
+            '<textarea name="description" cols="40" rows="10" id="id_description">'
+            "A lovely country with a blue and yellow flag</textarea>",
             form_html,
         )
 
@@ -232,7 +235,8 @@ class PermissionedModelFormTest(TestCase):
             form_html,
         )
         self.assertInHTML(
-            '<textarea name="description" cols="40" rows="10" id="id_description">A lovely country with a blue and yellow flag</textarea>',
+            '<textarea name="description" cols="40" rows="10" id="id_description">'
+            "A lovely country with a blue and yellow flag</textarea>",
             form_html,
             count=0,
         )
